@@ -59,4 +59,35 @@ def test_child_abilities():
     Travis = Character('Travis', 'Neutral')
     assert Travis.strength == 13
 
+def test_does_xp_exist():
+    Travis = Character('Travis', 'Neutral')
+    assert Travis.xp is not None
 
+def test_will_xp_increase():
+    Travis = Character('Travis', 'Neutral')
+    Pete = Character('Pete', 'Neutral')
+    Travis.attack(12, Pete)
+    assert Travis.xp == 10
+
+def test_xp_more_than_once():
+    Travis = Character('Travis', 'Neutral')
+    Pete = Character('Pete', 'Neutral')
+    Travis.attack(12, Pete)
+    Travis.attack(17, Pete)
+    Travis.attack(20, Pete)
+    assert Travis.xp == 30
+
+def test_is_level_there():
+    Travis = Character('Travis', 'Neutral')
+    assert Travis.lvl is not None
+
+def test_if_char_lvl_up():
+    Travis = Character('Travis', 'Neutral')
+    Pete = Character('Pete', 'Neutral')
+    Travis.xp = 2990
+    Travis.attack(20, Pete)
+    assert Travis.lvl is 4
+
+def test_does_str_mod_exist():
+    Travis = Character('Travis', 'Neutral')
+    assert Travis.strength is not None

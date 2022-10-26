@@ -21,17 +21,17 @@ This iteration covers core functionality for leveling, combat, and character att
 - [x] Is there an alignment
 - [x] Set alignment to one of the options
 
-#### Feature: Armor Class & Hit Points
+#### Feature: Armor Class & HP
 
-> As a combatant I want to have an armor class and hit points so that I can resist attacks from my enemies
+> As a combatant I want to have an armor class and HP so that I can resist attacks from my enemies
 
 - has an Armor Class that defaults to 10
-- has 5 Hit Points by default
+- has 5 HP by default
 
 - [x] Is there an armor class
 - [x] Can we set a value to the armor class
-- [x] Does the armor class have hit points
-- [x] Can we assign the number of hit points
+- [x] Does the armor class have HP
+- [x] Can we assign the number of HP
 
 #### Feature: Character Can Attack
 
@@ -51,7 +51,7 @@ This iteration covers core functionality for leveling, combat, and character att
 
 - If attack is successful, other character takes 1 point of damage when hit
 - If a roll is a natural 20 then a critical hit is dealt and the damage is doubled
-- when hit points are 0 or fewer, the character is dead
+- when HP are 0 or fewer, the character is dead
 
 - [x] Deal 1 point of damage when roll is greater than armor
 - [x] Deal 2 points of damage when roll is 20
@@ -82,13 +82,15 @@ This iteration covers core functionality for leveling, combat, and character att
   - double Strength modifier on critical hits
   - minimum damage is always 1 (even on a critical hit)
 - add Dexterity modifier to armor class
-- add Constitution modifier to hit points (always at least 1 hit point)
+- add Constitution modifier to HP (always at least 1 hit point)
 
 #### Feature: A Character can gain experience when attacking
 
 > As a character I want to accumulate experience points (xp) when I attack my enemies so that I can earn bragging rights at the tavern
 
 - When a successful attack occurs, the character gains 10 experience points
+
+- [x] On successful attack, xp for the player that made the attack goes up by 10
 
 #### Feature: A Character Can Level
 
@@ -101,8 +103,13 @@ This iteration covers core functionality for leveling, combat, and character att
   - 2000 xp -> 3rd Level
   - etc.
 - For each level:
-  - hit points increase by 5 plus Con modifier
+
+  - HP increase by 5 plus Con modifier
   - 1 is added to attack roll for every even level achieved
+
+  - [x] Does the lvl attribute exist
+  - [x] For every 1000 xp the player gains, the player levels up 1 level
+  - []
 
 ### Iteration 2 - Classes
 
@@ -114,7 +121,7 @@ Classes that a character can have.
 
 ##### Ideas
 
-- changes in hit points
+- changes in HP
 - changes in attack and damage
 - increased critical range or damage
 - bonuses/penalties versus other classes
@@ -126,7 +133,7 @@ Classes that a character can have.
 > As a player I want to play a Fighter so that I can kick ass and take names
 
 - attacks roll is increased by 1 for every level instead of every other level
-- has 10 hit points per level instead of 5
+- has 10 HP per level instead of 5
 
 > As a player I want to play a Rogue so that I can defeat my enemies with finesse
 
@@ -144,7 +151,7 @@ Classes that a character can have.
 
 > As a player I want to play a Paladin so that I can smite evil, write wrongs, and be a self-righteous jerk
 
-- has 8 hit points per level instead of 5
+- has 8 HP per level instead of 5
 - +2 to attack and damage when attacking Evil characters
 - does triple damage when critting on an Evil character (i.e. add the +2 bonus for a regular attack, and then triple that)
 - attacks roll is increased by 1 for every level instead of every other level
