@@ -13,7 +13,7 @@ def test_class_inheritance():
 def test_monk_damage():
     Travis = Monk('Travis', 'Neutral')
     Pete = Character('Pete', 'Evil')
-    Travis.attack(12, Pete)
+    Travis.attack(12, Pete, 'monk')
     assert Pete.hp == 2
 
 
@@ -55,10 +55,108 @@ def test_does_atk_roll_increase():
     Pete = Character('Pete', 'Neutral', strength=18, dexterity=7,
                      constitution=9, wisdom=7, intelligence=19, charisma=15)
     Travis.xp = 990
+    Travis.attack(15, Pete, 'monk')
+    Travis.xp = 1990
+    Travis.attack(15, Pete, 'monk')
+    Travis.xp = 2990
+    Travis.attack(15, Pete, 'monk')
+    Travis.attack(15, Pete, 'monk')
+    assert Travis.atk_roll == 5
+
+
+def test_monk_roll_increase_every_2nd_3rd():
+    Travis = Monk('travis', 'Good', strength=15, dexterity=10,
+                  constitution=10, wisdom=17, intelligence=2, charisma=17)
+    Pete = Character('Pete', 'Neutral', strength=18, dexterity=7,
+                     constitution=9, wisdom=7, intelligence=19, charisma=15)
+    Travis.xp = 990
+    Travis.attack(15, Pete, 'monk')
+    Travis.xp = 1990
+    Travis.attack(15, Pete, 'monk')
+    # assert Travis.lvl == 3
+    assert Travis.atk_roll == 4
+
+
+def test_fighter_roll_increase_every_lvl():
+    Travis = Fighter('travis', 'Good', strength=15, dexterity=10,
+                     constitution=10, wisdom=17, intelligence=2, charisma=17)
+    Pete = Character('Pete', 'Neutral', strength=18, dexterity=7,
+                     constitution=9, wisdom=7, intelligence=19, charisma=15)
+    Travis.xp = 990
+    Travis.attack(15, Pete, 'fighter')
+    Travis.xp = 1990
+    Travis.attack(15, Pete, 'fighter')
+    Travis.xp = 2990
+    Travis.attack(15, Pete, 'fighter')
+    # assert Travis.lvl == 4
+    assert Travis.atk_roll == 5
+
+
+def test_rogue_crit_triple_dmg():
+    Travis = Rogue('travis', 'Good', strength=15, dexterity=15,
+                   constitution=10, wisdom=17, intelligence=2, charisma=17)
+    Pete = Character('Pete', 'Neutral', strength=18, dexterity=7,
+                     constitution=20, wisdom=7, intelligence=19, charisma=15)
+    Travis.attack(20, Pete, 'rogue')
+    assert Pete.hp == 1
+
+
+def test_rogue_added_dex_mod():
+    Travis = Rogue('travis', 'Good', strength=10, dexterity=15,
+                   constitution=10, wisdom=17, intelligence=2, charisma=17)
+    Pete = Character('Pete', 'Neutral', strength=18, dexterity=7,
+                     constitution=20, wisdom=7, intelligence=19, charisma=15)
+    Travis.attack(19, Pete, 'rogue')
+    assert Pete.hp == 7
+
+
+def test_rogue_cant_be_evil():
+    Travis = Rogue('Travis', 'Good')
+    assert Travis.align == 'Evil' or Travis.align == 'Neutral'
+
+
+def test_rogue_ignores_target_dex():
+    Travis = Rogue('travis', 'Good', strength=10, dexterity=10,
+                   constitution=10, wisdom=17, intelligence=2, charisma=17)
+    Pete = Character('Pete', 'Neutral', strength=18, dexterity=15,
+                     constitution=20, wisdom=7, intelligence=19, charisma=15)
+    Travis.attack(11, Pete, 'rogue')
+    assert Pete.hp == 9
+
+
+def test_paladin_does_extra_dmg():
+    Travis = Paladin('travis', 'Good', strength=10, dexterity=10,
+                     constitution=10, wisdom=17, intelligence=2, charisma=17)
+    Pete = Character('Pete', 'Evil', strength=18, dexterity=15,
+                     constitution=20, wisdom=7, intelligence=19, charisma=15)
+    Travis.attack(19, Pete, 'paladin')
+    assert Pete.hp == 7
+
+
+def test_paladin_crit_on_evil():
+    Travis = Paladin('travis', 'Good', strength=10, dexterity=10,
+                     constitution=10, wisdom=17, intelligence=2, charisma=17)
+    Pete = Character('Pete', 'Evil', strength=18, dexterity=15,
+                     constitution=20, wisdom=7, intelligence=19, charisma=15)
+    Travis.attack(20, Pete, 'paladin')
+    assert Pete.hp == 1
+
+
+def test_paladin_roll_increase_every_lvl():
+    Travis = Paladin('travis', 'Good', strength=10, dexterity=10,
+                     constitution=10, wisdom=17, intelligence=2, charisma=17)
+    Pete = Character('Pete', 'Neutral', strength=18, dexterity=7,
+                     constitution=9, wisdom=7, intelligence=19, charisma=15)
+    Travis.xp = 990
     Travis.attack(15, Pete, 'paladin')
     Travis.xp = 1990
     Travis.attack(15, Pete, 'paladin')
     Travis.xp = 2990
     Travis.attack(15, Pete, 'paladin')
-    Travis.attack(15, Pete, 'paladin')
-    assert Travis.atk_roll == 4
+    assert Travis.atk_roll == 3
+
+
+def test_paladin_cant_be_evil():
+    Travis = Paladin('travis', 'Evil', strength=10, dexterity=10,
+                     constitution=10, wisdom=17, intelligence=2, charisma=17)
+    assert Travis.align == 'Good'
