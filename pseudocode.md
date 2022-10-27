@@ -109,7 +109,7 @@ This iteration covers core functionality for leveling, combat, and character att
 
   - [x] Does the lvl attribute exist
   - [x] For every 1000 xp the player gains, the player levels up 1 level
-  - []
+  - [x] Increase hp on level up
 
 ### Iteration 2 - Classes
 
