@@ -1,8 +1,9 @@
 import math
 
+
 class Ability:
 
-# math.floor((level - 10) / 2)
+    # math.floor((level - 10) / 2)
 
     MOD_VALUES = {
         1: -5,
@@ -26,6 +27,7 @@ class Ability:
         19: 4,
         20: 5,
     }
+
     def __init__(self, name, value, modifier):
         self.name = name
         self.value = value
@@ -41,15 +43,17 @@ class Character:
         'intelligence': 10,
         'charisma': 10,
     }
+
     def __init__(self, name, align, **abilities):
         self.name = name
         self.align = align
-        self.xp = 0 
+        self.xp = 0
         self.lvl = 1
 
         for key in self.DEFAULT_ABILITIES:
             # if_true if condition else if_false
-            value = abilities[key] if (key in abilities) else self.DEFAULT_ABILITIES[key]
+            value = abilities[key] if (
+                key in abilities) else self.DEFAULT_ABILITIES[key]
             a = Ability(key, value, Ability.MOD_VALUES[value])
             setattr(self, key, a)
         self.armor = 10 + (self.dexterity.modifier)
@@ -59,32 +63,40 @@ class Character:
         self.damage = 1 + (self.strength.modifier)
         self.crit = 2 + (self.strength.modifier * 2)
         self.is_dead = False
+        self.atk_roll = self.strength.modifier + self.lvl // 2
 
-        # Abilities.__init__(self)
-        # self.strength = Abilities.strength + 3
+    CHAR_HP = {
+        'monk': 6,
+        'fighter': 10,
+        'paladin': 8,
+        'rogue': 5
+    }
 
-    def attack(self, roll, target):
-        roll2 = roll + (self.strength.modifier)
+    def attack(self, roll, target, cha_class):
+        roll2 = roll + self.atk_roll
         if roll == 20:
             target.hp -= self.crit
             self.xp += 10
             if self.xp % 1000 == 0:
                 self.lvl = (math.floor(self.xp/1000) + 1)
-                self.hp = self.hp + (5 + self.constitution.modifier)
+
+                self.hp = self.hp + \
+                    (Character.CHAR_HP[cha_class] + self.constitution.modifier)
         elif roll2 >= target.armor:
             target.hp -= self.damage
             self.xp += 10
             if self.xp % 1000 == 0:
                 self.lvl = (math.floor(self.xp/1000) + 1)
-                self.hp = self.hp + (5 + self.constitution.modifier)
+                self.hp = self.hp + \
+                    (Character.CHAR_HP[cha_class] + self.constitution.modifier)
         if target.hp <= 0:
             target.is_dead = True
-    
+
 
 # todo Overall Changes
 # * there will be changes to health
 # * there will be changes to attack roll and dmg
-# * 
+# *
 
 class Monk(Character):
     def __init__(self, name, align, **abilities):
@@ -94,16 +106,18 @@ class Monk(Character):
             self.armor = 10 + (self.dexterity.modifier + self.wisdom.modifier)
         else:
             self.armor = 10 + (self.dexterity.modifier)
-        
-    # gets 6 hp for every level
+
+    # gets 6 hp for every level ✅
     # does 3 dmg instead of 1 (without modifier) ✅
     # adds wisdom mod (only if positive) to the armor class + dex✅
     # attack roll is increased by 1 for every 2nd and 3rd lvl (2,4,6,8,10,12 && 3,6,9,12,15)
+
 
 class Fighter(Character):
     # attack roll += 1 for every lvl instead of every other lvl
     # get 10 hp per lvl instead of 5
     pass
+
 
 class Rogue(Character):
     # triple dmg on crit
@@ -111,6 +125,7 @@ class Rogue(Character):
     # add dex mod to attack instead of strength
     # cant have good alignment
     pass
+
 
 class Paladin(Character):
     # starts with 8 hp instead of 5
