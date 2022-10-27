@@ -1,11 +1,9 @@
 import math
 
-# Ability
-# - name
-# - score/value
-# - modifier
-# - modify_ability()
 class Ability:
+
+# math.floor((level - 10) / 2)
+
     MOD_VALUES = {
         1: -5,
         2: -4,
@@ -33,15 +31,6 @@ class Ability:
         self.value = value
         self.modifier = modifier
 
-
-    # def mod_attr(self):
-    #     Character.hp = Character.hp + self.MOD_VALUES[]
-        # self.strength = stre
-        # self.dexterity = dex
-        # self.constitution = const
-        # self.wisdom = wis
-        # self.intelligence = inte
-        # self.charisma = cha
 
 class Character:
     DEFAULT_ABILITIES = {
@@ -91,3 +80,42 @@ class Character:
         if target.hp <= 0:
             target.is_dead = True
     
+
+# todo Overall Changes
+# * there will be changes to health
+# * there will be changes to attack roll and dmg
+# * 
+
+class Monk(Character):
+    def __init__(self, name, align, **abilities):
+        super().__init__(name, align, **abilities)
+        self.damage = 3 + (self.strength.modifier)
+        if self.wisdom.modifier > 0:
+            self.armor = 10 + (self.dexterity.modifier + self.wisdom.modifier)
+        else:
+            self.armor = 10 + (self.dexterity.modifier)
+        
+    # gets 6 hp for every level
+    # does 3 dmg instead of 1 (without modifier) ✅
+    # adds wisdom mod (only if positive) to the armor class + dex✅
+    # attack roll is increased by 1 for every 2nd and 3rd lvl (2,4,6,8,10,12 && 3,6,9,12,15)
+
+class Fighter(Character):
+    # attack roll += 1 for every lvl instead of every other lvl
+    # get 10 hp per lvl instead of 5
+    pass
+
+class Rogue(Character):
+    # triple dmg on crit
+    # ignores dex mod on the armor (could possibly - the armor by the mod if its this class)
+    # add dex mod to attack instead of strength
+    # cant have good alignment
+    pass
+
+class Paladin(Character):
+    # starts with 8 hp instead of 5
+    # +2 dmg to enemies when they are "evil"
+    # does triple damage when you crit on an Evil character (i.e. add the +2 bonus for a regular attack, and then triple that)
+    # attack roll += 1 for every lvl
+    # can only have "Good" alignment
+    pass
