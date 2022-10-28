@@ -160,3 +160,29 @@ def test_paladin_cant_be_evil():
     Travis = Paladin('travis', 'Evil', strength=10, dexterity=10,
                      constitution=10, wisdom=17, intelligence=2, charisma=17)
     assert Travis.align == 'Good'
+
+
+def test_monk_versus_fighter():
+    Travis = Monk('travis', 'Good', dexterity=14, wisdom=14)
+    Pete = Fighter('pete', 'Good')
+    Travis.attack(19, Pete, 'monk')  # monk has 3 dmg instead of 1
+    Pete.xp = 990
+    # not supposed to hit monk armor also checking for 10 hp on lvl up
+    Pete.attack(15, Travis, 'fighter')
+    assert Pete.hp == 12
+    assert Travis.damage == 3
+    assert Travis.armor == 14
+
+
+def test_paladin_vs_rogue():
+    Travis = Paladin('Travis', 'Neutral', strength=12, dexterity=17)
+    Pete = Rogue('Pete', 'Evil', dexterity=14)
+    Travis.attack(15, Pete, 'paladin')
+    assert Pete.hp == 1
+    Pete.attack(10, Travis, 'rogue')
+    assert Travis.hp == 2
+    Travis.attack(20, Pete, 'paladin')
+    assert Pete.hp == -11
+    Pete.attack(20, Travis, 'rogue')
+    assert Travis.hp == -7
+    assert Travis.align == 'Good'
