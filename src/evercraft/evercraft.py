@@ -132,7 +132,6 @@ class Fighter(Character):
 
     # attack roll += 1 for every lvl instead of every other lvl✅
     # get 10 hp per lvl instead of 5✅
-    pass
 
 
 class Rogue(Character):
@@ -149,7 +148,6 @@ class Rogue(Character):
             # ignores dex mod on the armor (could possibly - the armor by the mod if its this class)✅
             # add dex mod to attack instead of strength✅
             # cant have good alignment✅
-    pass
 
 
 class Paladin(Character):
@@ -164,4 +162,3 @@ class Paladin(Character):
     # does triple damage when you crit on an Evil character (i.e. add the +2 bonus for a regular attack, and then triple that)✅
     # attack roll += 1 for every lvl✅
     # can only have "Good" alignment✅
-    pass
